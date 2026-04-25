@@ -1,19 +1,19 @@
-import { merge } from "webpack-merge";
-import common from "./webpack.common.js";
+import { merge } from 'webpack-merge';
+import common from './webpack.common.js';
 
 export default merge(common, {
-  mode: "development",
-  devtool: "eval-source-map",
+  mode: 'development',
+  devtool: 'eval-source-map',
   module: {
     rules: [
       {
         test: /\.(scss|css)$/i,
-        use: ["style-loader", "css-loader", "sass-loader"],
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
     ],
   },
   devServer: {
-    watchFiles: ["./src/template.html"],
+    watchFiles: ['./src/template.html'],
     historyApiFallback: true,
   },
 });

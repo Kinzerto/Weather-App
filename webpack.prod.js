@@ -1,12 +1,12 @@
-import { merge } from "webpack-merge";
-import common from "./webpack.common.js";
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import { merge } from 'webpack-merge';
+import common from './webpack.common.js';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 export default merge(common, {
-  mode: "production",
+  mode: 'production',
   optimization: {
     splitChunks: {
-      chunks: "all",
+      chunks: 'all',
     },
   },
   module: {
@@ -15,15 +15,15 @@ export default merge(common, {
         test: /\.(scss|css)$/i,
         use: [
           MiniCssExtractPlugin.loader, // extract CSS
-          "css-loader",
-          "sass-loader",
+          'css-loader',
+          'sass-loader',
         ],
       },
     ],
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "[name].[contenthash].css", // separate CSS file
+      filename: '[name].[contenthash].css', // separate CSS file
     }),
   ],
 });

@@ -18,12 +18,9 @@ body {
    display: flex;
    flex-direction: column;
    min-height: 100vh;
-
-   border: 2px solid red;
 }
 .container {
    margin: 0 auto;
-   border: 2px solid blue;
    width: 100%;
    max-width: 1200px;
 
@@ -133,7 +130,10 @@ body {
       padding: $padding-layout;
       display: flex;
       gap: 20px;
-      border: 1px solid green;
+      min-height: 40px;
+      // overflow: hidden;
+      border: 5px solid green;
+
       .weather-now {
          flex: 1.3;
          display: flex;
@@ -259,21 +259,23 @@ body {
          -webkit-backdrop-filter: blur(5px);
          border: 2px solid rgba(255, 255, 255, 0.3);
          flex: 1;
+         max-height: 70vh;
          display: flex;
          flex-direction: column;
 
          .top {
+            margin-bottom: 2px;
             button {
                font-size: smaller;
                background-color: transparent;
                padding: 0;
                border: none;
+               border-bottom: 2px solid transparent;
                margin-left: 20px;
                cursor: pointer;
 
                &.selected {
-                  // color: red;
-                  // border-bottom: 2px solid black;
+                  border-bottom: 2px solid rgba(0, 0, 0, 0.568);
                }
                &:hover {
                   border-bottom: 2px solid rgba(0, 0, 0, 0.13);
@@ -281,71 +283,93 @@ body {
             }
             margin-bottom: 20px;
          }
-         .days {
-            border-bottom: 2px solid rgba(104, 104, 104, 0.034);
-            flex: 1;
-            padding: 20px;
-            // border: 1px solid red;
-            display: flex;
-            // gap: 40px;
+         .daysTemp {
+            overflow-y: auto;
+            scroll-behavior: smooth;
 
-            .left {
-               // border: 1px solid greenyellow;
+            &::-webkit-scrollbar {
+               width: 6px;
+               display: none;
+            }
+
+            &::-webkit-scrollbar-track {
+               background: none;
+            }
+
+            &::-webkit-scrollbar-thumb {
+               background: rgb(51, 41, 41);
+               border-radius: 10px;
+            }
+
+            &::-webkit-scrollbar-thumb:hover {
+               background: #833c3c;
+            }
+            .days {
+               border-bottom: 2px solid rgba(104, 104, 104, 0.034);
                flex: 1;
-               // overflow: hidden;
+               padding: 20px;
                // border: 1px solid red;
-               white-space: nowrap;
                display: flex;
-               align-items: center;
-               // justify-items: center;
-               gap: 10px;
-               font-size: smaller;
-               img {
-                  width: 50px;
-               }
-               .report {
-                  width: 100%;
-                  border-right: 2px solid rgba(104, 104, 104, 0.192);
+               // gap: 40px;
+
+               .left {
+                  // border: 1px solid greenyellow;
+                  flex: 1;
                   // overflow: hidden;
                   // border: 1px solid red;
+                  white-space: nowrap;
+                  display: flex;
+                  align-items: center;
+                  // justify-items: center;
+                  gap: 10px;
+                  font-size: smaller;
+                  img {
+                     width: 50px;
+                  }
+                  .report {
+                     width: 100%;
+                     border-right: 2px solid rgba(104, 104, 104, 0.192);
+                     // overflow: hidden;
+                     // border: 1px solid red;
 
-                  .condition {
-                     // color: red;
-                     font-weight: bold;
+                     .condition {
+                        // color: red;
+                        font-weight: bold;
+                     }
                   }
                }
-            }
-            .right {
-               flex: 1;
-               // padding: 0 15px;
-               // border: 1px solid red;
-               display: flex;
-               justify-content: center;
-               align-items: center;
-               // gap: 20px;
-
-               .temp {
-                  // border: 1px solid yellow;
-                  // padding-left: 15px;
+               .right {
+                  flex: 1;
+                  // padding: 0 15px;
+                  // border: 1px solid red;
                   display: flex;
                   justify-content: center;
-                  flex: 1;
-                  display: flex;
-                  line-height: 0.8;
+                  align-items: center;
+                  // gap: 20px;
 
-                  // color: red;
-                  .current-temp {
-                     font-size: 35px;
+                  .temp {
+                     // border: 1px solid yellow;
+                     // padding-left: 15px;
+                     display: flex;
+                     justify-content: center;
+                     flex: 1;
+                     display: flex;
+                     line-height: 0.8;
+
+                     // color: red;
+                     .current-temp {
+                        font-size: 35px;
+                     }
+                     .temp-scales {
+                        font-size: smaller;
+                     }
                   }
-                  .temp-scales {
+                  .wind-humidity {
+                     // border: 1px solid blue;
+                     flex: 1;
+                     text-wrap: nowrap;
                      font-size: smaller;
                   }
-               }
-               .wind-humidity {
-                  // border: 1px solid blue;
-                  flex: 1;
-                  text-wrap: nowrap;
-                  font-size: smaller;
                }
             }
          }
