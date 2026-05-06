@@ -101,8 +101,19 @@ export function renderCurrentWeather(data) {
   `;
   content.innerHTML = main;
 
+  const todayBtn = document.querySelector('.today');
+  const tomorrowBtn = document.querySelector('.tommorrow');
+  const days10Btn = document.querySelector('.days10');
   const weatherNow = document.querySelector('.weather-now');
   const nextDays = document.querySelector('.nextDays');
+  const today_weather = weather.days[0].hours;
+  const buttons = [todayBtn, tomorrowBtn, days10Btn];
+  const selectEl = document.querySelector('select#temp');
+  const currentTemp = document.querySelector('.current-temp');
+
+  const daysTemp = document.createElement('div');
+  daysTemp.classList.add('daysTemp');
+  nextDays.appendChild(daysTemp);
 
   const observer = new ResizeObserver(() => {
     const height = weatherNow.offsetHeight;
@@ -110,17 +121,6 @@ export function renderCurrentWeather(data) {
   });
 
   observer.observe(weatherNow);
-
-  const daysTemp = document.createElement('div');
-  daysTemp.classList.add('daysTemp');
-  nextDays.appendChild(daysTemp);
-  const today_weather = weather.days[0].hours;
-
-  const todayBtn = document.querySelector('.today');
-  const tomorrowBtn = document.querySelector('.tommorrow');
-  const days10Btn = document.querySelector('.days10');
-
-  const buttons = [todayBtn, tomorrowBtn, days10Btn];
 
   function setActive(activeBtn) {
     buttons.forEach((btn) => btn.classList.remove('selected'));
@@ -146,6 +146,15 @@ export function renderCurrentWeather(data) {
 
   upcomingWeather(today_weather, daysTemp);
   riseAndSet(astronomy);
+
+  // select
+  selectEl.addEventListener('change', () => {
+    if (selectEl.value === 'cel') {
+      console.log('celcius');
+    } else {
+      console.log('farenheit');
+    }
+  });
 }
 
 function getWindDir(deg) {
