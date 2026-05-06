@@ -65,13 +65,10 @@ export function riseAndSet(data) {
     </div>
   `;
   sunAndMoon.innerHTML = sun;
-  console.log(isEventDone(sunrise, date));
-  console.log(isEventDone(sunset, date));
   weatherNow.appendChild(sunAndMoon);
 }
 
 function isEventDone(timeNow) {
-  console.log(timeNow);
   const now = new Date();
   const current = now.getHours() * 60 + now.getMinutes();
 
