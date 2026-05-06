@@ -109,7 +109,9 @@ export function renderCurrentWeather(data) {
   const today_weather = weather.days[0].hours;
   const buttons = [todayBtn, tomorrowBtn, days10Btn];
   const selectEl = document.querySelector('select#temp');
+
   const currentTemp = document.querySelector('.current-temp');
+  const tempScales = document.querySelector('.temp-scales');
 
   const daysTemp = document.createElement('div');
   daysTemp.classList.add('daysTemp');
@@ -150,9 +152,11 @@ export function renderCurrentWeather(data) {
   // select
   selectEl.addEventListener('change', () => {
     if (selectEl.value === 'cel') {
-      console.log('celcius');
+      currentTemp.textContent = toCelsius(current.temp);
+      tempScales.textContent = '°C';
     } else {
-      console.log('farenheit');
+      currentTemp.textContent = current.temp;
+      tempScales.textContent = '°F';
     }
   });
 }
@@ -166,4 +170,8 @@ function getWindDir(deg) {
   if (deg < 247.5) return 'South West'; // SW
   if (deg < 292.5) return 'West'; // W
   return 'North West'; // NW
+}
+
+function toCelsius(f) {
+  return ((f - 32) / 1.8).toFixed(1);
 }
