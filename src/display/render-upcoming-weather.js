@@ -1,5 +1,7 @@
 import sunny from '../assets/images/rain.gif';
 import { formatSmartDate, formatTime } from '../utils/date.js';
+import { state } from '../state.js';
+import { toCelsius } from '../utils/toCelcius.js';
 
 export function upcomingWeather(days, parent, isDate = false) {
   parent.replaceChildren();
@@ -52,11 +54,18 @@ export function upcomingWeather(days, parent, isDate = false) {
 
     const currentTemp = document.createElement('span');
     currentTemp.className = 'current-temp';
-    currentTemp.textContent = day.temp;
 
+    currentTemp.dataset.currentTemp = day.temp;
+    console.log(state.scale);
     const tempScales = document.createElement('span');
     tempScales.className = 'temp-scales';
-    tempScales.textContent = '°F';
+    if (state.scale === 'cel') {
+      currentTemp.textContent = toCelsius(day.temp);
+      tempScales.textContent = '°C';
+    } else {
+      currentTemp.textContent = day.temp;
+      tempScales.textContent = '°F';
+    }
 
     temp.appendChild(currentTemp);
     temp.appendChild(tempScales);
