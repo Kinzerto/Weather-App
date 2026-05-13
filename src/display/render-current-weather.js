@@ -1,6 +1,8 @@
 import { upcomingWeather } from './render-upcoming-weather.js';
 import sunny from '../assets/images/rain.gif';
 import { riseAndSet } from './render-astronomy.js';
+import { toCelsius } from '../utils/toCelcius.js';
+import { state } from '../state.js';
 
 const content = document.querySelector('.content');
 const cityLoc = document.querySelector('.city');
@@ -31,13 +33,13 @@ export function renderCurrentWeather(data) {
               </div>
               <div class="weatherStat">
                 <div class="temp">
-                  <span class="current-temp">${current.temp}</span>
+                  <span class="current-temp" data-current-temp="${current.temp}">${current.temp}</span>
                   <span class="temp-scales">°F</span>
                 </div>
               </div>
               <div class="stat-feel">
                 <div class="group">
-                  <div class="feels">Feels like <span class="current-temp">${current.feelslike}</span>°</div>
+                  <div class="feels" >Feels like <span class="current-temp" data-current-temp="${current.temp}">${current.feelslike}</span>°</div>
                   <div class="status">${current.conditions}</div>
                 </div>
                 <img src="${sunny}" alt="" />
@@ -62,7 +64,7 @@ export function renderCurrentWeather(data) {
                 <i class="bi bi-wind"></i>
                 <div class="group">
                   <span class="title">Wind Speed</span>
-                  <div class="status">${current.windspeed}mph</div>
+                  <div class="status">${current.windspeed} mph</div>
                 </div>
               </div>
               <div class="condition">
@@ -106,12 +108,12 @@ export function renderCurrentWeather(data) {
   const days10Btn = document.querySelector('.days10');
   const weatherNow = document.querySelector('.weather-now');
   const nextDays = document.querySelector('.nextDays');
+
   const today_weather = weather.days[0].hours;
   const buttons = [todayBtn, tomorrowBtn, days10Btn];
-  const selectEl = document.querySelector('select#temp');
 
-  const currentTemp = document.querySelector('.current-temp');
-  const tempScales = document.querySelector('.temp-scales');
+  //SELECT ELEMENT AND ITS ELEMENTS NEEDED
+  const selectEl = document.querySelector('select#temp');
 
   const daysTemp = document.createElement('div');
   daysTemp.classList.add('daysTemp');
@@ -131,6 +133,7 @@ export function renderCurrentWeather(data) {
 
   todayBtn.addEventListener('click', () => {
     upcomingWeather(today_weather, daysTemp);
+    console.log(today_weather);
     setActive(todayBtn);
   });
 
@@ -149,15 +152,32 @@ export function renderCurrentWeather(data) {
   upcomingWeather(today_weather, daysTemp);
   riseAndSet(astronomy);
 
-  // select
+  // SELECT ELEMENT
   selectEl.addEventListener('change', () => {
+    const currentTemp = document.querySelectorAll('.current-temp');
+    const tempScales = document.querySelectorAll('.temp-scales');
+    state.scale = selectEl.value;
     if (selectEl.value === 'cel') {
-      currentTemp.textContent = toCelsius(current.temp);
-      tempScales.textContent = '°C';
+      currentTemp.forEach((temp) => {
+        const dataAttr = temp.dataset.currentTemp;
+        temp.textContent = toCelsius(dataAttr);
+      });
+
+      tempScales.forEach((scales) => {
+        scales.textContent = '°C';
+      });
     } else {
-      currentTemp.textContent = current.temp;
-      tempScales.textContent = '°F';
+      currentTemp.forEach((temp) => {
+        const dataAttr = temp.dataset.currentTemp;
+        temp.textContent = dataAttr;
+      });
+
+      tempScales.forEach((scales) => {
+        scales.textContent = '°F';
+      });
     }
+
+    console.log(state.scale);
   });
 }
 
@@ -170,8 +190,4 @@ function getWindDir(deg) {
   if (deg < 247.5) return 'South West'; // SW
   if (deg < 292.5) return 'West'; // W
   return 'North West'; // NW
-}
-
-function toCelsius(f) {
-  return ((f - 32) / 1.8).toFixed(1);
 }
