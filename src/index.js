@@ -6,6 +6,7 @@ import { getAddress } from './api/geoLocationApi.js';
 import { astronomy } from './api/astronomyAPI.js';
 import { renderCurrentWeather } from './display/render-current-weather.js';
 import { formatDateComplete } from './utils/date.js';
+import { state } from './state.js';
 
 const formEl = document.getElementById('weather-form');
 const cityInputEl = document.getElementById('search-city');
@@ -14,6 +15,7 @@ console.log(fetchWeather('calbiga'));
 //  Get the location you searched and pass it to fetchWeather to get the location weather.
 formEl.addEventListener('submit', async (event) => {
   event.preventDefault();
+  state.scale = null;
   const city = cityInputEl.value.trim();
   dataLocate(city);
 });
@@ -27,6 +29,7 @@ navigator.geolocation.getCurrentPosition(async (pos) => {
   getAddress(lat, lon);
 });
 
+// combined 2 API into one for functionality
 async function getCombinedData(city) {
   try {
     // const geoData = await getAddress(city);
