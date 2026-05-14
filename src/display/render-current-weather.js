@@ -38,7 +38,7 @@ export async function renderCurrentWeather(data) {
               </div>
               <div class="stat-feel">
                 <div class="group">
-                  <div class="feels" >Feels like <span class="current-temp" data-current-temp="${current.temp}">${current.feelslike}</span>°</div>
+                  <div class="feels" >Feels like <span class="current-temp" data-current-temp="${current.feelslike}">${current.feelslike}</span>°</div>
                   <div class="status">${current.conditions}</div>
                 </div>
                 <img src="${weatherIcon}" alt="" />
