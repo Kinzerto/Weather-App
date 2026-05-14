@@ -8,20 +8,23 @@ import { astronomy } from './api/astronomyAPI.js';
 import { renderCurrentWeather } from './display/render-current-weather.js';
 import { formatDateComplete } from './utils/date.js';
 import { state } from './state.js';
-// import { loader } from '../utils/loader.js';
 import { loader } from './utils/loader.js';
+import rigbyImg from './assets/images/rigby.jpeg';
 
+const profileEl = document.getElementById('profile');
+profileEl.src = rigbyImg;
 const formEl = document.getElementById('weather-form');
 const cityInputEl = document.getElementById('search-city');
-// console.log(fetchWeather('calbiga'));
 
 //  Get the location you searched and pass it to fetchWeather to get the location weather.
 formEl.addEventListener('submit', async (event) => {
   event.preventDefault();
   state.scale = null;
+  state.isKm = null;
   const city = cityInputEl.value.trim();
   if (!city) return;
   dataLocate(city);
+  formEl.reset();
 });
 
 // basically this is used f or for getting ur location where you at, like “ask the browser for the user’s current location(if you allow the location permission), then use it”. This returns the latitude and longitude.
