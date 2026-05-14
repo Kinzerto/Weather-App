@@ -1,34 +1,42 @@
 import { upcomingWeather } from './render-upcoming-weather.js';
 import { riseAndSet } from './render-astronomy.js';
-import { toCelsius } from '../utils/unitsConverter.js';
+import { toCelsius, toKm } from '../utils/unitsConverter.js';
 import { state } from '../state.js';
 import { getWeatherImage } from '../api/dynamicIcon.js';
+import { format } from 'date-fns';
 
 const content = document.querySelector('.content');
 const cityLoc = document.querySelector('.city');
 
 export async function renderCurrentWeather(data) {
   if (!data) return;
-
   const weather = data.weather;
-  cityLoc.textContent = weather.weatherData.resolvedAddress.toLowerCase();
+  const location = weather.weatherData.resolvedAddress.toLowerCase().split(',');
+  cityLoc.textContent = location[1]
+    ? `${location[0]}, ${location[1]}`
+    : location[0];
   const astronomy = data.astronomy;
   const current = weather.current;
   const weatherIcon = await getWeatherImage(current.icon);
 
-  console.log(current.icon);
   const main = `
           <div class="weather-now">
             <div class="current-weather">
               <div class="top">
                 <div class="group">
                   Current Weather
-                  <select name="temp" id="temp">
-                    <option value="far">F°</option>
-                    <option value="cel">C°</option>
+                  <div class="unitGroup">
+                  <select name="unit" id="unit">
+                    <option value="miles">Mile</option>
+                    <option value="km">Km</option>
                   </select>
+                  <select name="temp" id="temp">
+                    <option value="far">°F</option>
+                    <option value="cel">°C</option>
+                  </select>
+                  </div>
                 </div>
-                <div class="dateNow">Wednesday</div>
+                <div class="dateNow">${format(new Date(), 'EEEE')}</div>
               </div>
               <div class="weatherStat">
                 <div class="temp">
@@ -63,7 +71,7 @@ export async function renderCurrentWeather(data) {
                 <i class="bi bi-wind"></i>
                 <div class="group">
                   <span class="title">Wind Speed</span>
-                  <div class="status">${current.windspeed} mph</div>
+                  <div class="status mph" data-mph-val="${current.windspeed}">${current.windspeed} mph</div>
                 </div>
               </div>
               <div class="condition">
@@ -77,7 +85,7 @@ export async function renderCurrentWeather(data) {
                 <i class="bi bi-eye"></i>
                 <div class="group">
                   <span class="title">Visibility</span>
-                  <div class="status">${current.visibility} miles</div>
+                  <div class="status miles" data-miles-val="${current.visibility}">${current.visibility} miles</div>
                 </div>
               </div>
               <div class="condition">
@@ -112,7 +120,8 @@ export async function renderCurrentWeather(data) {
   const buttons = [todayBtn, tomorrowBtn, days10Btn];
 
   //SELECT ELEMENT AND ITS ELEMENTS NEEDED
-  const selectEl = document.querySelector('select#temp');
+  const distanceUnit = document.querySelector('select#unit');
+  const tempUnit = document.querySelector('select#temp');
 
   const daysTemp = document.createElement('div');
   daysTemp.classList.add('daysTemp');
@@ -132,7 +141,6 @@ export async function renderCurrentWeather(data) {
 
   todayBtn.addEventListener('click', () => {
     upcomingWeather(today_weather, daysTemp);
-    console.log(today_weather);
     setActive(todayBtn);
   });
 
@@ -148,15 +156,15 @@ export async function renderCurrentWeather(data) {
     setActive(days10Btn);
   });
 
-  upcomingWeather(today_weather, daysTemp);
   riseAndSet(astronomy);
+  upcomingWeather(today_weather, daysTemp);
 
   // SELECT ELEMENT
-  selectEl.addEventListener('change', () => {
+  tempUnit.addEventListener('change', () => {
     const currentTemp = document.querySelectorAll('.current-temp');
     const tempScales = document.querySelectorAll('.temp-scales');
-    state.scale = selectEl.value;
-    if (selectEl.value === 'cel') {
+    state.scale = tempUnit.value;
+    if (tempUnit.value === 'cel') {
       currentTemp.forEach((temp) => {
         const dataAttr = temp.dataset.currentTemp;
         temp.textContent = toCelsius(dataAttr);
@@ -173,6 +181,26 @@ export async function renderCurrentWeather(data) {
 
       tempScales.forEach((scales) => {
         scales.textContent = '°F';
+      });
+    }
+  });
+
+  distanceUnit.addEventListener('change', () => {
+    const windSpeedEl = document.querySelector('.status.mph');
+    const visibilityEl = document.querySelector('.status.miles');
+    const windEl = document.querySelectorAll('.wind');
+    state.isKm = distanceUnit.value;
+    if (distanceUnit.value === 'km') {
+      windSpeedEl.textContent = `${toKm(windSpeedEl.dataset.mphVal)} kmh`;
+      visibilityEl.textContent = `${toKm(visibilityEl.dataset.milesVal)} km`;
+      windEl.forEach((el) => {
+        el.textContent = `Wind: ${toKm(el.dataset.windMphVal)} kmh`;
+      });
+    } else {
+      windSpeedEl.textContent = `${windSpeedEl.dataset.mphVal} mph`;
+      visibilityEl.textContent = `${visibilityEl.dataset.milesVal} miles`;
+      windEl.forEach((el) => {
+        el.textContent = `Wind: ${el.dataset.windMphVal} mph`;
       });
     }
   });
