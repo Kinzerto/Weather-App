@@ -2,11 +2,11 @@
 export async function getAddress(lat, lon) {
   const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
   try {
-    const res = await fetch(url);
-    if (!res.ok) {
-      throw new Error('Failed to locate location');
+    const responce = await fetch(url);
+    if (!responce.ok) {
+      throw new Error(`HTTP Error: ${responce.status}`);
     }
-    const data = await res.json();
+    const data = await responce.json();
     return data;
   } catch (error) {
     console.error(error);

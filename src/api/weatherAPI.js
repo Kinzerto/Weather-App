@@ -4,7 +4,7 @@ export async function fetchWeather(location) {
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error('Failed to fetch weather');
+      throw new Error(`HTTP Error: ${response.status}`);
     }
     const data = await response.json();
     return data;
