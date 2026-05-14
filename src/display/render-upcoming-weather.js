@@ -1,12 +1,13 @@
 import { formatSmartDate, formatTime } from '../utils/date.js';
 import { state } from '../state.js';
-import { toCelsius } from '../utils/unitsConverter.js';
+import { toCelsius, toKm } from '../utils/unitsConverter.js';
 import { getWeatherImage } from '../api/dynamicIcon.js';
 
-export function upcomingWeather(days, parent, isDate = false) {
+export async function upcomingWeather(days, parent, isDate = false) {
   parent.replaceChildren();
   let conditionNOw = isDate ? days.slice(2) : days;
-  conditionNOw.forEach(async (day) => {
+
+  for (const day of conditionNOw) {
     const weatherIcon = await getWeatherImage(day.icon);
     // main container
     const days = document.createElement('div');
@@ -75,7 +76,13 @@ export function upcomingWeather(days, parent, isDate = false) {
 
     const wind = document.createElement('div');
     wind.className = 'wind';
-    wind.textContent = `Wind: ${day.windspeed}mph`;
+    wind.dataset.windMphVal = day.windspeed;
+    // wind.textContent = `Wind: ${day.windspeed} mph`;
+    if (state.isKm === 'km') {
+      wind.textContent = `Wind: ${toKm(day.windspeed)} kmh`;
+    } else {
+      wind.textContent = `Wind: ${day.windspeed} mph`;
+    }
 
     const humidity = document.createElement('div');
     humidity.className = 'humidity';
@@ -93,5 +100,5 @@ export function upcomingWeather(days, parent, isDate = false) {
     days.appendChild(right);
 
     parent.appendChild(days);
-  });
+  }
 }
