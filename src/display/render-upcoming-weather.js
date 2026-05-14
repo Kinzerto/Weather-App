@@ -1,7 +1,7 @@
 import sunny from '../assets/images/rain.gif';
 import { formatSmartDate, formatTime } from '../utils/date.js';
 import { state } from '../state.js';
-import { toCelsius } from '../utils/toCelcius.js';
+import { toCelsius } from '../utils/unitsConverter.js';
 
 export function upcomingWeather(days, parent, isDate = false) {
   parent.replaceChildren();
