@@ -1,7 +1,7 @@
 import { upcomingWeather } from './render-upcoming-weather.js';
 import sunny from '../assets/images/rain.gif';
 import { riseAndSet } from './render-astronomy.js';
-import { toCelsius } from '../utils/toCelcius.js';
+import { toCelsius } from '../utils/unitsConverter.js';
 import { state } from '../state.js';
 
 const content = document.querySelector('.content');
@@ -25,8 +25,8 @@ export function renderCurrentWeather(data) {
                 <div class="group">
                   Current Weather
                   <select name="temp" id="temp">
-                    <option value="far">Fahrenheit</option>
-                    <option value="cel">Celcuis</option>
+                    <option value="far">F°</option>
+                    <option value="cel">C°</option>
                   </select>
                 </div>
                 <div class="dateNow">Wednesday</div>
@@ -78,14 +78,14 @@ export function renderCurrentWeather(data) {
                 <i class="bi bi-eye"></i>
                 <div class="group">
                   <span class="title">Visibility</span>
-                  <div class="status">${current.visibility}</div>
+                  <div class="status">${current.visibility} miles</div>
                 </div>
               </div>
               <div class="condition">
                 <i class="bi bi-compass"></i>
                 <div class="group">
                   <span class="title">Wind Direction</span>
-                  <div class="status">${current.winddir}° | ${getWindDir(current.winddir)}</div>
+                  <div class="status">${current.winddir}° | <small>${getWindDir(current.winddir)}</small></div>
                 </div>
               </div>
             </div>
@@ -176,8 +176,6 @@ export function renderCurrentWeather(data) {
         scales.textContent = '°F';
       });
     }
-
-    console.log(state.scale);
   });
 }
 
