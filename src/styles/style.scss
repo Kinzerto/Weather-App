@@ -122,11 +122,11 @@ body {
             border-radius: 50px;
             height: 40px;
             width: 40px;
-            background-color: red;
+            background-color: transparent;
             overflow: hidden;
 
             img {
-               // height: 20px;
+               opacity: 0.8;
             }
          }
       }
@@ -219,9 +219,8 @@ body {
                // margin-top: -20px;
 
                img {
-                  opacity: 0.9;
-                  position: absolute;
-                  margin-right: 200px;
+                  opacity: 0.7;
+                  margin-right: 10px;
                   width: 60px;
                }
                .group {
@@ -387,6 +386,7 @@ body {
                   gap: 10px;
                   font-size: smaller;
                   img {
+                     opacity: 0.7;
                      width: 60px;
                   }
                   .report {
@@ -449,7 +449,7 @@ body {
    img {
       width: 200px;
       height: 200px;
-      opacity: 0.8;
+      opacity: 0.7;
    }
    .shadow {
       margin-top: -5px;
