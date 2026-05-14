@@ -29,16 +29,37 @@ formEl.addEventListener('submit', async (event) => {
 });
 
 // basically this is used f or for getting ur location where you at, like “ask the browser for the user’s current location(if you allow the location permission), then use it”. This returns the latitude and longitude.
-navigator.geolocation.getCurrentPosition(async (pos) => {
-  const lat = pos.coords.latitude;
-  const lon = pos.coords.longitude;
+const locateBtn = document.querySelector('.locate');
+const defaultCity = 'New York';
 
-  // then it passed to fuction getAddress(in geoLocation.js file) it gets the locations Hometown(i picked only the hometown in this function, but you can get like street, city, country or someting to return a specific location data)
-  const location = await getAddress(lat, lon);
-  const address = location.address.town;
+async function locateUser() {
+  navigator.geolocation.getCurrentPosition(
+    async (pos) => {
+      try {
+        const { latitude, longitude } = pos.coords;
 
-  dataLocate(address);
-});
+        const location = await getAddress(latitude, longitude);
+        const address = location.address.town;
+
+        dataLocate(address || defaultCity);
+      } catch (error) {
+        console.error(error);
+        dataLocate(defaultCity);
+      }
+    },
+
+    // permission denied or failed
+    () => {
+      dataLocate(defaultCity);
+    },
+  );
+}
+
+// run on website load
+locateUser();
+
+// run when button clicked
+locateBtn.addEventListener('click', locateUser);
 
 // combined 2 API into one for functionality
 async function getCombinedData(city) {
