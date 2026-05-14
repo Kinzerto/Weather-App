@@ -6,6 +6,7 @@ import sunsetImg from '../assets/images/sunset.png';
 export function riseAndSet(data) {
   if (!data) return;
   const astronomy = data;
+  const location = astronomy.location;
   const date = astronomy.date;
   const isDate = astronomy.isDateNow;
   const sunrise = astronomy.sunrise;
@@ -39,7 +40,7 @@ export function riseAndSet(data) {
         <p>
           Sunrise today in
           <span style=" text-transform: capitalize">
-            calbiga
+          ${location}
           </span>
           ${isEventDone(sunrise)} ${convertTo12Format(date, sunrise)} <br>
           (${calculateTimeDistance(date, sunrise)})
@@ -56,7 +57,7 @@ export function riseAndSet(data) {
         <p>
           Sunset today in
           <span style=" text-transform: capitalize">
-            calbiga
+            ${location}
           </span>
           ${isEventDone(sunset)} ${convertTo12Format(date, sunset)} <br>
           (${calculateTimeDistance(date, sunset)})
@@ -66,6 +67,8 @@ export function riseAndSet(data) {
   `;
   sunAndMoon.innerHTML = sun;
   weatherNow.appendChild(sunAndMoon);
+
+  console.log(astronomy);
 }
 
 function isEventDone(timeNow) {
