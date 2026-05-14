@@ -1,23 +1,22 @@
 import { upcomingWeather } from './render-upcoming-weather.js';
-import sunny from '../assets/images/rain.gif';
 import { riseAndSet } from './render-astronomy.js';
 import { toCelsius } from '../utils/unitsConverter.js';
 import { state } from '../state.js';
+import { getWeatherImage } from '../api/dynamicIcon.js';
 
 const content = document.querySelector('.content');
 const cityLoc = document.querySelector('.city');
 
-export function dataCity(city) {
-  console.log(city);
-}
-
-export function renderCurrentWeather(data) {
+export async function renderCurrentWeather(data) {
   if (!data) return;
+
   const weather = data.weather;
   cityLoc.textContent = weather.weatherData.resolvedAddress.toLowerCase();
   const astronomy = data.astronomy;
   const current = weather.current;
+  const weatherIcon = await getWeatherImage(current.icon);
 
+  console.log(current.icon);
   const main = `
           <div class="weather-now">
             <div class="current-weather">
@@ -42,7 +41,7 @@ export function renderCurrentWeather(data) {
                   <div class="feels" >Feels like <span class="current-temp" data-current-temp="${current.temp}">${current.feelslike}</span>°</div>
                   <div class="status">${current.conditions}</div>
                 </div>
-                <img src="${sunny}" alt="" />
+                <img src="${weatherIcon}" alt="" />
               </div>
             </div>
             <div class="statuses">
