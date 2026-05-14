@@ -1,5 +1,6 @@
-import './styles/style.scss';
 import './styles/reset.css';
+import './styles/loader.scss';
+import './styles/style.scss';
 
 import { fetchWeather } from './api/weatherAPI.js';
 import { getAddress } from './api/geoLocationApi.js';
@@ -7,6 +8,8 @@ import { astronomy } from './api/astronomyAPI.js';
 import { renderCurrentWeather } from './display/render-current-weather.js';
 import { formatDateComplete } from './utils/date.js';
 import { state } from './state.js';
+// import { loader } from '../utils/loader.js';
+import { loader } from './utils/loader.js';
 
 const formEl = document.getElementById('weather-form');
 const cityInputEl = document.getElementById('search-city');
@@ -17,10 +20,11 @@ formEl.addEventListener('submit', async (event) => {
   event.preventDefault();
   state.scale = null;
   const city = cityInputEl.value.trim();
+  if (!city) return;
   dataLocate(city);
 });
 
-// basically this is used for for getting ur location where you at, like “ask the browser for the user’s current location(if you allow the location permission), then use it”. This returns the latitude and longitude.
+// basically this is used f or for getting ur location where you at, like “ask the browser for the user’s current location(if you allow the location permission), then use it”. This returns the latitude and longitude.
 navigator.geolocation.getCurrentPosition(async (pos) => {
   const lat = pos.coords.latitude;
   const lon = pos.coords.longitude;
@@ -34,6 +38,7 @@ navigator.geolocation.getCurrentPosition(async (pos) => {
 
 // combined 2 API into one for functionality
 async function getCombinedData(city) {
+  loader();
   try {
     // const geoData = await getAddress(city);
 
@@ -74,6 +79,5 @@ async function getCombinedData(city) {
 
 async function dataLocate(loc) {
   const weather = await getCombinedData(loc);
-
   renderCurrentWeather(weather);
 }
