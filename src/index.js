@@ -10,6 +10,7 @@ import { formatDateComplete } from './utils/date.js';
 import { state } from './state.js';
 import { loader } from './utils/loader.js';
 import rigbyImg from './assets/images/rigby.jpeg';
+import { failed } from './display/renderFailed.js';
 
 const profileEl = document.getElementById('profile');
 profileEl.src = rigbyImg;
@@ -77,6 +78,7 @@ async function getCombinedData(city) {
     };
   } catch (err) {
     console.error(err);
+    failed();
   }
 }
 
