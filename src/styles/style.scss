@@ -18,8 +18,6 @@ body {
    min-height: 100vh;
 }
 .container {
-   border: 1px solid red;
-
    margin: 0 auto;
    width: 100%;
    min-height: 100vh;
@@ -130,7 +128,6 @@ body {
 
    .content {
       position: relative;
-      border: 1px solid red;
       padding: $padding-layout;
       display: flex;
       flex: 1;
@@ -144,7 +141,6 @@ body {
          height: 100%;
          flex-direction: column;
          row-gap: 20px;
-         border: 1px solid green;
 
          .current-weather {
             padding: 20px 15px;
