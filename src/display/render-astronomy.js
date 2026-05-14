@@ -67,8 +67,6 @@ export function riseAndSet(data) {
   `;
   sunAndMoon.innerHTML = sun;
   weatherNow.appendChild(sunAndMoon);
-
-  console.log(astronomy);
 }
 
 function isEventDone(timeNow) {
