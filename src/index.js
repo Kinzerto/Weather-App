@@ -10,7 +10,7 @@ import { state } from './state.js';
 
 const formEl = document.getElementById('weather-form');
 const cityInputEl = document.getElementById('search-city');
-console.log(fetchWeather('calbiga'));
+// console.log(fetchWeather('calbiga'));
 
 //  Get the location you searched and pass it to fetchWeather to get the location weather.
 formEl.addEventListener('submit', async (event) => {
@@ -26,7 +26,10 @@ navigator.geolocation.getCurrentPosition(async (pos) => {
   const lon = pos.coords.longitude;
 
   // then it passed to fuction getAddress(in geoLocation.js file) it gets the locations Hometown(i picked only the hometown in this function, but you can get like street, city, country or someting to return a specific location data)
-  getAddress(lat, lon);
+  const location = await getAddress(lat, lon);
+  const address = location.address.town;
+
+  dataLocate(address);
 });
 
 // combined 2 API into one for functionality
@@ -55,6 +58,7 @@ async function getCombinedData(city) {
       },
 
       astronomy: {
+        location: weatherData.resolvedAddress,
         date: astro.date,
         isDateNow: formatDateComplete(astro.date),
         sunrise: astro ? astro.sunrise : null,
@@ -73,5 +77,3 @@ async function dataLocate(loc) {
 
   renderCurrentWeather(weather);
 }
-
-dataLocate('calbiga');
