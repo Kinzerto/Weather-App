@@ -14,7 +14,7 @@ export function dataCity(city) {
 export function renderCurrentWeather(data) {
   if (!data) return;
   const weather = data.weather;
-  cityLoc.textContent = weather.weatherData.resolvedAddress;
+  cityLoc.textContent = weather.weatherData.resolvedAddress.toLowerCase();
   const astronomy = data.astronomy;
   const current = weather.current;
 
