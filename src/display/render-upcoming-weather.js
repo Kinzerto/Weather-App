@@ -1,13 +1,13 @@
-import sunny from '../assets/images/rain.gif';
 import { formatSmartDate, formatTime } from '../utils/date.js';
 import { state } from '../state.js';
 import { toCelsius } from '../utils/unitsConverter.js';
+import { getWeatherImage } from '../api/dynamicIcon.js';
 
 export function upcomingWeather(days, parent, isDate = false) {
   parent.replaceChildren();
   let conditionNOw = isDate ? days.slice(2) : days;
-
-  conditionNOw.forEach((day) => {
+  conditionNOw.forEach(async (day) => {
+    const weatherIcon = await getWeatherImage(day.icon);
     // main container
     const days = document.createElement('div');
     days.className = 'days';
@@ -18,7 +18,7 @@ export function upcomingWeather(days, parent, isDate = false) {
 
     // image
     const img = document.createElement('img');
-    img.src = sunny;
+    img.src = weatherIcon;
     img.alt = '';
 
     // report container
@@ -56,7 +56,6 @@ export function upcomingWeather(days, parent, isDate = false) {
     currentTemp.className = 'current-temp';
 
     currentTemp.dataset.currentTemp = day.temp;
-    console.log(state.scale);
     const tempScales = document.createElement('span');
     tempScales.className = 'temp-scales';
     if (state.scale === 'cel') {
