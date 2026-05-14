@@ -45,6 +45,7 @@ body {
       .logo {
          color: blue;
          font-size: 20px;
+         font-style: oblique;
          font-weight: bolder;
       }
       .location {
@@ -168,10 +169,14 @@ body {
                   display: flex;
                   justify-content: space-between;
                }
-               select {
-                  border: none;
+               .unitGroup {
                   display: flex;
-                  background-color: inherit;
+                  gap: 5px;
+                  select {
+                     border: none;
+                     display: flex;
+                     background-color: inherit;
+                  }
                }
             }
 
