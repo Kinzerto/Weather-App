@@ -2,7 +2,7 @@ import { upcomingWeather } from './render-upcoming-weather.js';
 import { riseAndSet } from './render-astronomy.js';
 import { toCelsius, toKm } from '../utils/unitsConverter.js';
 import { state } from '../state.js';
-import { getWeatherImage } from '../api/dynamicIcon.js';
+import { getWeatherImage } from '../utils/dynamicIcon.js';
 import { format } from 'date-fns';
 
 const content = document.querySelector('.content');

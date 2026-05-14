@@ -1,7 +1,7 @@
 import { formatSmartDate, formatTime } from '../utils/date.js';
 import { state } from '../state.js';
 import { toCelsius, toKm } from '../utils/unitsConverter.js';
-import { getWeatherImage } from '../api/dynamicIcon.js';
+import { getWeatherImage } from '../utils/dynamicIcon.js';
 
 export async function upcomingWeather(days, parent, isDate = false) {
   parent.replaceChildren();
